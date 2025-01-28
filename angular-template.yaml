@@ -1,9 +1,9 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: angular-template
-  title: Example Angular Template
-  description: An example template for the scaffolder that creates a simple Angular application
+  name: angular-login-template
+  title: Example Angular Login Template
+  description: An example template for the scaffolder that creates a simple Angular login application
 spec:
   owner: admin
   type: service
@@ -37,7 +37,7 @@ spec:
       name: Fetch Base
       action: fetch:template
       input:
-        url: https://github.com/backstage/community/tree/main/backstage-community-sessions
+        url: https://github.com/KalashniRob/backstage-catalog/angular-login
         values:
           name: ${{ parameters.name }}
 
