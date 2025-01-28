@@ -1,0 +1,133 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-angular-app
+  title: Create Angular Project
+  description: A template for generating a new Angular project
+  tags:
+    - angular
+    - frontend
+    - template
+spec:
+  owner: admin
+  type: website
+  parameters:
+    - title: Project Name
+      description: Enter the name of your Angular project
+      required: true
+    - title: Description
+      description: Enter a short description of your Angular application
+      required: true
+  steps:
+    - id: create-project
+      name: Create Angular Project
+      action: execute:command
+      input:
+        workingDirectory: .
+        command: npx
+        args:
+          - ng
+          - new
+          - ${{ parameters.projectName }}
+          - --defaults
+          - --directory=.
+    - id: update-angular-json
+      name: Update angular.json
+      action: write:file
+      input:
+        path: angular.json
+        content: |
+          {
+            "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+            "version": 1,
+            "projects": {
+              "${{ parameters.projectName }}": {
+                "projectType": "application",
+                "schematics": {},
+                "root": "",
+                "sourceRoot": "src",
+                "prefix": "app",
+                "architect": {
+                  "build": {
+                    "builder": "@angular-devkit/build-angular:application",
+                    "options": {
+                      "outputPath": "dist/${{ parameters.projectName }}",
+                      "index": "src/index.html",
+                      "main": "src/main.ts",
+                      "polyfills": ["zone.js"],
+                      "tsConfig": "tsconfig.app.json",
+                      "assets": ["src/favicon.ico", "src/assets"],
+                      "styles": ["src/styles.css"],
+                      "scripts": []
+                    },
+                    "configurations": {
+                      "production": {
+                        "budgets": [
+                          {
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                          },
+                          {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "2kb",
+                            "maximumError": "4kb"
+                          }
+                        ],
+                        "outputHashing": "all"
+                      },
+                      "development": {
+                        "optimization": false,
+                        "extractLicenses": false,
+                        "sourceMap": true
+                      }
+                    },
+                    "defaultConfiguration": "production"
+                  }
+                }
+              }
+            }
+          }
+    - id: update-package-json
+      name: Update package.json
+      action: write:file
+      input:
+        path: package.json
+        content: |
+          {
+            "name": "${{ parameters.projectName }}",
+            "version": "0.0.1",
+            "description": "${{ parameters.description }}",
+            "scripts": {
+              "ng": "ng",
+              "start": "ng serve",
+              "build": "ng build",
+              "test": "ng test",
+              "lint": "ng lint",
+              "e2e": "ng e2e"
+            },
+            "dependencies": {
+              "@angular/animations": "~17.0.0",
+              "@angular/common": "~17.0.0",
+              "@angular/compiler": "~17.0.0",
+              "@angular/core": "~17.0.0",
+              "@angular/forms": "~17.0.0",
+              "@angular/platform-browser": "~17.0.0",
+              "@angular/platform-browser-dynamic": "~17.0.0",
+              "@angular/router": "~17.0.0",
+              "rxjs": "~7.8.0",
+              "tslib": "^2.3.0",
+              "zone.js": "~0.14.3"
+            },
+            "devDependencies": {
+              "@angular-devkit/build-angular": "~17.0.0",
+              "@angular/cli": "~17.0.0",
+              "@angular/compiler-cli": "~17.0.0",
+              "typescript": "~5.4.2"
+            }
+          }
+    - id: log
+      name: Log Success
+      action: debug:log
+      input:
+        message: "Successfully created the Angular project '${{ parameters.projectName }}'."
