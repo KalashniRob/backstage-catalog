@@ -6,7 +6,7 @@ metadata:
 spec:
   type: team
   profile:
-    displayName: Infrastructure
+    displayName: Admin
     email: infrastructure@example.com
     picture: https://example.com/groups/bu-infrastructure.jpeg
   parent: ops
