@@ -4,6 +4,8 @@ metadata:
   name: angular-login-template
   title: Example Angular Login Template
   description: An example template for the scaffolder that creates a simple Angular login application
+  annotations:
+    backstage.io/techdocs-ref: dir:.
 spec:
   owner: admin
   type: service
