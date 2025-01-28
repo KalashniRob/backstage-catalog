@@ -4,6 +4,8 @@ metadata:
   name: create-angular-app
   title: Create Angular Project
   description: A template for generating a new Angular project
+  annotations:
+        backstage.io/techdocs-ref: dir:.
   tags:
     - angular
     - frontend
