@@ -1,5 +1,5 @@
 apiVersion: scaffolder.backstage.io/v1beta3
-kind: Template
+kind: Component
 metadata:
   name: create-angular-app
   title: Create Angular Project
