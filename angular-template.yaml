@@ -37,7 +37,7 @@ spec:
       name: Fetch Base
       action: fetch:template
       input:
-        url: https://github.com/KalashniRob/backstage-catalog/tree/main/angular-login
+        url: ./angular-login
         values:
           name: ${{ parameters.name }}
 
