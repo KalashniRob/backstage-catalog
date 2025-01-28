@@ -1,13 +1,11 @@
-apiVersion: backstage.io/v1beta2
+apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: angular-template
-  title: Test Action template
-  description: Angular template
-  annotations:
-    backstage.io/time-saved: PT4H
+  title: Example Angular Template
+  description: An example template for the scaffolder that creates a simple Angular application
 spec:
-  owner: backstage/techdocs-core
+  owner: admin
   type: service
 
   parameters:
@@ -18,7 +16,7 @@ spec:
         name:
           title: Name
           type: string
-          description: Unique name of the component
+          description: Unique name of the Angular service
           ui:autofocus: true
           ui:options:
             rows: 5
@@ -39,28 +37,29 @@ spec:
       name: Fetch Base
       action: fetch:template
       input:
-        url: ./template
-        values:
-          name: '{{ parameters.name }}'
-
-    - id: fetch-docs
-      name: Fetch Docs
-      action: fetch:plain
-      input:
-        targetPath: ./community
         url: https://github.com/backstage/community/tree/main/backstage-community-sessions
+        values:
+          name: ${{ parameters.name }}
 
     - id: publish
-      name: Publish
+      name: Publish to GitHub
       action: publish:github
       input:
         allowedHosts: ['github.com']
-        description: 'This is {{ parameters.name }}'
-        repoUrl: '{{ parameters.repoUrl }}'
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
 
     - id: register
-      name: Register
+      name: Register in catalog
       action: catalog:register
       input:
-        repoContentsUrl: '{{ steps['publish'].output.repoContentsUrl }}'
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
