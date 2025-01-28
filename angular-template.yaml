@@ -1,6 +1,5 @@
 apiVersion: backstage.io/v1beta2
 kind: Template
-# some metadata about the template itself
 metadata:
   name: angular-template
   title: Test Action template
@@ -11,7 +10,6 @@ spec:
   owner: backstage/techdocs-core
   type: service
 
-  # these are the steps which are rendered in the frontend with the form input
   parameters:
     - title: Fill in some steps
       required:
@@ -36,7 +34,6 @@ spec:
             allowedHosts:
               - github.com
 
-  # here's the steps that are executed in series in the scaffolder backend
   steps:
     - id: fetch-base
       name: Fetch Base
@@ -65,5 +62,5 @@ spec:
       name: Register
       action: catalog:register
       input:
-        repoContentsUrl: {{ steps['publish'].output.repoContentsUrl }}
+        repoContentsUrl: '{{ steps['publish'].output.repoContentsUrl }}'
         catalogInfoPath: '/catalog-info.yaml'
