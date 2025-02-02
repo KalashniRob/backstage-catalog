@@ -40,10 +40,7 @@ spec:
         version:
           title: Select Version
           type: string
-          enum:
-            - latest
-            - 2685a94a2688bed400a48c2d0f97e8eef91a2063 
-            - 9b84073816f4869772db34b46581781175bc4700
+          enum: ${{ fetch: "https://api.github.com/repos/KalashniRob/backstage-catalog/commits?path=angular-login/package.json" | map(commit => commit.sha) }}
   steps:
     - id: fetch-base
       name: Fetch Base
