@@ -40,7 +40,7 @@ spec:
         version:
           title: Select Version
           type: string
-          enum: ${{ fetch: "https://api.github.com/repos/KalashniRob/backstage-catalog/commits?path=angular-login/package.json" | map(commit => commit.sha) }}
+      ui:field: VersionSelector
   steps:
     - id: fetch-base
       name: Fetch Base
