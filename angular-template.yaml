@@ -33,15 +33,27 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
-
+    - title: Choose Version
+      required:
+        - version
+      properties:
+        version:
+          title: Select Version
+          type: string
+          enum:
+            - latest
+            - 2685a94a2688bed400a48c2d0f97e8eef91a2063 
+            - 9b84073816f4869772db34b46581781175bc4700
   steps:
     - id: fetch-base
       name: Fetch Base
       action: fetch:template
       input:
-        url: ./angular-login
-        values:
-          name: ${{ parameters.name }}
+        url: https://github.com/KalashniRob/backstage-catalog.git
+        checkoutCommit: ${{ parameters.version }}
+        copyWithoutTemplating:
+          - angular-login/**
+        targetPath: angular-login
 
     - id: publish
       name: Publish to GitHub
